@@ -1,0 +1,39 @@
+# You are given a string s consisting of the following characters: '(', ')', '{', '}', '[' and ']'.
+
+# The input string s is valid if and only if:
+
+# Every open bracket is closed by the same type of close bracket.
+# Open brackets are closed in the correct order.
+# Every close bracket has a corresponding open bracket of the same type.
+# Return true if s is a valid string, and false otherwise.
+
+# Example 1:
+
+# Input: s = "[]"
+
+# Output: true
+
+#1. Brute Force
+class Solution:
+    def isValid(self, s: str) -> bool:
+        while '()' in s or '{}' or '[]' in s:
+            s = s.replace('()', '')
+            s = s.replace('[]', '')
+            s = s.replace('{}', '')
+        return s == ''
+
+#2. Stack
+class Solution:
+    def isValid(self, s: str) -> bool:
+        stack = []
+        closeToOpen = { ")" : "(", "]" : "[", "}" : "{" }#bu bir dictionary lan oha
+        for c in s:
+            if c in closeToOpen: #sadece key e bakar yani aslinda kapanis parantezi mi diye kontrol ediyor
+                if stack and stack[-1] == closeToOpen[c]:
+                    stack.pop()
+                else:
+                    return False
+            else:
+                stack.append(c)
+
+        return True if not stack else False
